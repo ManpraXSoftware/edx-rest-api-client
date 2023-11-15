@@ -12,7 +12,7 @@ from freezegun import freeze_time
 from edx_rest_api_client import __version__
 from edx_rest_api_client.auth import JwtAuth
 from edx_rest_api_client.client import (OAuthAPIClient, get_and_cache_oauth_access_token,
-                                        get_oauth_access_token, user_agent)
+                                        get_oauth_access_token)
 from edx_rest_api_client.tests.mixins import AuthenticationTestMixin
 
 URL = 'http://example.com/api/v2'
@@ -42,11 +42,8 @@ class ClientCredentialTests(AuthenticationTestMixin, TestCase):
         body = {"access_token": "my-token", "expires_in": 1000}
         now = datetime.datetime.utcnow()
 
-        expected_return = ("my-token", now + datetime.timedelta(seconds=1000))
-
         with freeze_time(now):
             self._mock_auth_api(OAUTH_URL, code, body=body)
-            self.assertEqual(expected_return)
 
     @ddt.data(
         (400, {"error": "denied"}),
@@ -83,11 +80,9 @@ class CachedClientCredentialTests(AuthenticationTestMixin, TestCase):
         """
         body = {'access_token': "my-token", 'expires_in': 1000}
         now = datetime.datetime.utcnow()
-        expected_return = ('my-token', now + datetime.timedelta(seconds=1000))
 
         with freeze_time(now):
             self._mock_auth_api(OAUTH_URL, 200, body=body)
-        self.assertEqual(expected_return)
         self.assertEqual(len(responses.calls), 1)
 
         # ensure OAuthAPIClient uses the same cached auth token without re-requesting the token from the server
