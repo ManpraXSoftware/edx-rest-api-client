@@ -87,7 +87,6 @@ class CachedClientCredentialTests(AuthenticationTestMixin, TestCase):
         oauth_client = OAuthAPIClient(OAUTH_URL, 'client_id', 'client_secret')
         self._mock_auth_api(URL, 200, {'status': 'ok'})
         oauth_client.post(URL, data={'test': 'ok'})
-        self.assertEqual(oauth_client.auth.token)
         self.assertEqual(len(responses.calls), 2)
         self.assertEqual(URL, responses.calls[1][0].url)
 
