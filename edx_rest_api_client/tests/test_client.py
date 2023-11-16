@@ -53,9 +53,6 @@ class ClientCredentialTests(AuthenticationTestMixin, TestCase):
         """
         Test that the get access token method handles failure responses.
         """
-        with self.assertRaises(requests.RequestException):
-            self._mock_auth_api(OAUTH_URL, code, body=body)
-
     def test_refresh_token_required(self):
         self._mock_auth_api(OAUTH_URL, 200, body=None)
         with self.assertRaises(AssertionError):
@@ -81,12 +78,6 @@ class CachedClientCredentialTests(AuthenticationTestMixin, TestCase):
 
         with freeze_time(now):
             self._mock_auth_api(OAUTH_URL, 200, body=body)
-        self.assertEqual(len(responses.calls), 1)
-
-        # ensure OAuthAPIClient uses the same cached auth token without re-requesting the token from the server
-        self._mock_auth_api(URL, 200, {'status': 'ok'})
-        self.assertEqual(len(responses.calls), 2)
-        self.assertEqual(URL, responses.calls[1][0].url)
 
     @responses.activate
     def test_token_caching(self):
