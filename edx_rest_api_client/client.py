@@ -1,17 +1,15 @@
 import datetime
 import json
-import os
 import socket
 
 import crum
 import requests
 import requests.utils
-import slumber
 from edx_django_utils.cache import TieredCache
 from edx_django_utils.monitoring import set_custom_attribute
 
 from edx_rest_api_client.__version__ import __version__
-from edx_rest_api_client.auth import BearerAuth, JwtAuth, SuppliedJwtAuth
+from edx_rest_api_client.auth import SuppliedJwtAuth
 
 # When caching tokens, use this value to err on expiring tokens a little early so they are
 # sure to be valid at the time they are used.

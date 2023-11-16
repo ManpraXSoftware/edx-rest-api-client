@@ -1,6 +1,5 @@
 import datetime
 import json
-import os
 from unittest import TestCase, mock
 
 import ddt
@@ -10,7 +9,6 @@ from edx_django_utils.cache import TieredCache
 from freezegun import freeze_time
 
 from edx_rest_api_client import __version__
-from edx_rest_api_client.auth import JwtAuth
 from edx_rest_api_client.client import (OAuthAPIClient, get_and_cache_oauth_access_token,
                                         get_oauth_access_token)
 from edx_rest_api_client.tests.mixins import AuthenticationTestMixin
