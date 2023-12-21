@@ -47,17 +47,6 @@ class CachedClientCredentialTests(AuthenticationTestMixin, TestCase):
         TieredCache.dangerous_clear_all_tiers()
 
     @responses.activate
-    def test_shared_client_credential_jwt_access_token(self):
-        """
-        Test that get_and_cache_jwt_oauth_access_token returns the same access token used by the OAuthAPIClient.
-        """
-        body = {'access_token': "my-token", 'expires_in': 1000}
-        now = datetime.datetime.utcnow()
-
-        with freeze_time(now):
-            self._mock_auth_api(OAUTH_URL, 200, body=body)
-
-    @responses.activate
     def test_token_caching(self):
         """
         Test that tokens are cached based on client, token_type, and grant_type
