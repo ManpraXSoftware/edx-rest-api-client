@@ -31,28 +31,6 @@ class ClientCredentialTests(AuthenticationTestMixin, TestCase):
     Test client credentials requests.
     """
 
-    @responses.activate
-    def test_get_client_credential_access_token_success(self):
-        """
-        Test that the get access token method handles 200 responses and returns the access token.
-        """
-        code = 200
-        body = {"access_token": "my-token", "expires_in": 1000}
-        now = datetime.datetime.utcnow()
-
-        with freeze_time(now):
-            self._mock_auth_api(OAUTH_URL, code, body=body)
-
-    @ddt.data(
-        (400, {"error": "denied"}),
-        (500, None)
-    )
-    @ddt.unpack
-    @responses.activate
-    def test_get_client_credential_access_token_failure(self, code, body):
-        """
-        Test that the get access token method handles failure responses.
-        """
     def test_refresh_token_required(self):
         self._mock_auth_api(OAUTH_URL, 200, body=None)
         with self.assertRaises(AssertionError):
